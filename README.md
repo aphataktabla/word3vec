@@ -31,4 +31,12 @@ Experimental question (b) was a bit tough to answer. While we tried (with the he
 
 For experiment (c) we tried a couple different alternate embeddings for words derived from the co-occurence matrix. First, (motivated by Arora et. al, 2016) we tried the PCA embeddings of the co-occurence matrix. This actually led to a weaker separation between the BATS and random quadruple cosine similarity results. The same happened when we instead used the PPMI embeddings derived from co-occurence statistics. 
 
-We then tried an ablation experiment where we took as our embedding, the scaled row corresponding to $w_j$ of the co-occurence matrix and kept only the top $k$ counts in that row. Then we tried the same BATS vs Random cosine similarity comparison: 
+We then tried an ablation experiment where we took as our embedding the scaled row corresponding to $w_j$ of the co-occurence matrix and kept only the top $k$ counts in that row. Then we tried the same BATS vs Random cosine similarity comparison: 
+
+<p align="center">
+  <img src="k-sparse_ablation.png" width="500">
+</p>
+
+When the embeddings are 1-sparse, the BATS v Random separation is not maintained at all and most vector differences have dot product zero (this makes sense because these one-hot embeddings should rarely co-occur the most with the same word). But results improve quickly as we increase sparsity; the results for a 100-sparse vector nearly match those for embeddings derived from the full co-occurence matrix. These ablation studies provide insight into the size of the "support" for a given analogy quadruple that captures sufficient information about the analogy.
+
+Aside from experiment (a), the other experiments are largely exploratory but have helped us develop a better sense for the more general question "what kinds of co-occurence driven embeddings preserve analogies." Our remaining work on this project will involve further refining the math that connects concept set definitions of words to co-occurence statistics, along with coming up with a dimensionality reduction result for analogy preserving embeddings.
