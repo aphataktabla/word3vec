@@ -1,3 +1,5 @@
 # word3vec
 
-Hello $sum_i{x_i}$
+$$
+\sum_{i=1}^n x_i^2
+$$
