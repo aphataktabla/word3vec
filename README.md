@@ -11,4 +11,10 @@ $$C(w_j)-C(w_i) = C(w_l)-C(w_k)$$
 
 where the minus sign here represents set differences. Furthermore, we define word similarity $s(w_i,w_j)= |C(w_i) \cap C(w_j)|$ (note, this is just one way of defining word similarity; we are still working on this and have proposed alternate definitions as well) and claim that the probability of two words co-occuring in a window $\delta$ is given by $P_\delta[wi, w_j] \propto f(s(w_i,w_j))$ where $f$ is some monotonically increasing function. Our claim is that the resulting co-occurence matrix leads to embeddings that preserve analogy parallelograms.
 
-This theoretical framework leaves a few questions that require some empirical answer: 1) can analogy preserving embeddings really be derived from
+This theory motivates quite a few experimental questions; here are some of the ones we have considered thus far:
+ -can we really derive analogy preserving embeddings from co-occurence statistics?
+ -does our concept set definition of words properly explain co-occurence stats?
+ -are there transformations of the co-occurence matrix that can result in better embeddings?
+ -how sparse is the concept representation of words?
+
+Though the first question has been verified before (Ri, Lee, and Verma, 2023) we verified it again. We considered a text corpus 4 billion words taken from the Dolma dataset and used it to first construct a vocabulary of the top 300,000 most occuring words. We then constructed a 300k by 300k co-occurence matrix with window-size 5
