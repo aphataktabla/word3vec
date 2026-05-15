@@ -17,4 +17,6 @@ This theory motivates quite a few experimental questions; here are some of the o
  -are there transformations of the co-occurence matrix that can result in better embeddings?
  -how sparse is the concept representation of words?
 
-Though the first question has been verified before (Ri, Lee, and Verma, 2023) we verified it again. We considered a text corpus 4 billion words taken from the Dolma dataset and used it to first construct a vocabulary of the top 300,000 most occuring words. We then constructed a 300k by 300k co-occurence matrix with window-size 5
+Though the first question has been verified before (Ri, Lee, and Verma, 2023) we verified it again. We considered a text corpus 4 billion words taken from the Dolma dataset and used it to first construct a vocabulary of the top 300,000 most occuring words. We then constructed a 300k by 300k co-occurence matrix with window-size 5 (see cooc_cc100.cpp) and filtered out certain stop words ("the", "a" etc.).
+
+Now for each $w_i$ we take its corresponding row in the co-occurence matrix (scaled by number of occurences of the row word) and take that as our embedding. Then, for word quadruples $w_a, w_b, w_c, w_d$ we computed the cosine similarity of vectors $w_a - w-b$ and $w_c - w_d$. We did this for analogy quadruples from the BATS 3.0 dataset and for randomly generated quadruples. We found the following summary statistics:
