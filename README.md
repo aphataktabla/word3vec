@@ -12,11 +12,23 @@ $$C(w_j)-C(w_i) = C(w_l)-C(w_k)$$
 where the minus sign here represents set differences. Furthermore, we define word similarity $s(w_i,w_j)= |C(w_i) \cap C(w_j)|$ (note, this is just one way of defining word similarity; we are still working on this and have proposed alternate definitions as well) and claim that the probability of two words co-occuring in a window $\delta$ is given by $P_\delta[wi, w_j] \propto f(s(w_i,w_j))$ where $f$ is some monotonically increasing function. Our claim is that the resulting co-occurence matrix leads to embeddings that preserve analogy parallelograms.
 
 This theory motivates quite a few experimental questions; here are some of the ones we have considered thus far:
- -can we really derive analogy preserving embeddings from co-occurence statistics?
- -does our concept set definition of words properly explain co-occurence stats?
- -are there transformations of the co-occurence matrix that can result in better embeddings?
- -how sparse is the concept representation of words?
+ (a) can we really derive analogy preserving embeddings from co-occurence statistics?
+ (b) does our concept set definition of words properly explain co-occurence stats?
+ (c) are there transformations of the co-occurence matrix that can result in better embeddings?
+ 
 
 Though the first question has been verified before (Ri, Lee, and Verma, 2023) we verified it again. We considered a text corpus 4 billion words taken from the Dolma dataset and used it to first construct a vocabulary of the top 300,000 most occuring words. We then constructed a 300k by 300k co-occurence matrix with window-size 5 (see cooc_cc100.cpp) and filtered out certain stop words ("the", "a" etc.).
 
 Now for each $w_i$ we take its corresponding row in the co-occurence matrix (scaled by number of occurences of the row word) and take that as our embedding. Then, for word quadruples $w_a, w_b, w_c, w_d$ we computed the cosine similarity of vectors $w_a - w-b$ and $w_c - w_d$. We did this for analogy quadruples from the BATS 3.0 dataset and for randomly generated quadruples. We found the following summary statistics:
+
+<p align="center">
+  <img src="scaled_cooc.png" width="500">
+</p>
+
+indicating that there is some analogy parallelogram structure present in the rows of the co-occurence matrix. 
+
+Experimental question (b) was a bit tough to answer. While we tried (with the help of LLMs) to generate actual concept representations of words and then predict co-occurences using our theory, the results did not support our claim. I believe that this is due to the fact that concepts themselves are not well-defined in practice which made it difficult to simulate our predicted co-occurence statistics.
+
+For experiment (c) we tried a couple different alternate embeddings for words derived from the co-occurence matrix. First, (motivated by Arora et. al, 2016) we tried the PCA embeddings of the co-occurence matrix. This actually led to a weaker separation between the BATS and random quadruple cosine similarity results. The same happened when we instead used the PPMI embeddings derived from co-occurence statistics. 
+
+We then tried an ablation experiment where we took as our embedding, the scaled row corresponding to $w_j$ of the co-occurence matrix and kept only the top $k$ counts in that row. Then we tried the same BATS vs Random cosine similarity comparison: 
