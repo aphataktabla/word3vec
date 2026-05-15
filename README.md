@@ -1,3 +1,3 @@
 # word3vec
 
-Hello $x$
+Hello $sum_i\inI{x_i}$
